@@ -1,0 +1,248 @@
+C51 COMPILER V9.59.0.0   ADC                                                               05/15/2020 11:03:31 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE ADC
+OBJECT MODULE PLACED IN .\output\ADC.obj
+COMPILER INVOKED BY: E:\Softwares\uVersion5\C51\BIN\C51.EXE Sources\ADC.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\output\ADC.lst) TABS(2) OBJECT(.\output\ADC.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "ADC.h"
+   3          #include "delay.h"
+   4          #include "define.h"
+   5          sbit add_A=P0^0;
+   6          sbit add_B=P0^1;
+   7          sbit add_C=P0^2;//ABC为3为地址输入线，译码出8位通道
+   8          sbit START_ALE=P0^3;//地址锁存，锁存CBA地址
+   9          sbit OE=P0^4;//转换后数据输出使能
+  10          sbit EOC=P0^5;//是否转换完成，0正忙，1转换成功
+  11          float temp1=0;//temp1用来读取转换后的16进制
+  12          uint temp2=0;//用来保存扩大啊100后的temp1
+  13          void ADC(uchar n)
+  14          {
+  15   1          char i;
+  16   1          switch(n)
+  17   1          {
+  18   2              case 0:
+  19   2              temp1=0;//采样5次求平均值，所以需要复位
+  20   2              for(i=5;i>0;i--)
+  21   2              {
+  22   3                  START_ALE=0;
+  23   3                  OE=0;
+  24   3                  select_channel(0);//选择通道0进行转化
+  25   3                  START_ALE=1;
+  26   3                  delay(5);
+  27   3                  START_ALE=0;
+  28   3                  delay(5);//等待AD转换完成
+  29   3                  while(EOC==1)  
+  30   3                  {
+  31   4                      P1=0xff;//读数据之前将P1口的电压置高
+  32   4                      OE=1;
+  33   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+  34   4                      delay(5);
+  35   4                      OE=0;
+  36   4                      break;
+  37   4                  }              
+  38   3              }
+  39   2              temp2=(temp1/5.0)*100;
+  40   2              break;
+  41   2              case 1:
+  42   2              temp1=0;//采样5次求平均值，所以需要复位
+  43   2              for(i=5;i>0;i--)
+  44   2              {
+  45   3                START_ALE=0;
+  46   3                OE=0;
+  47   3                select_channel(1);//选择通道1进行转化
+  48   3                START_ALE=1;
+  49   3                delay(5);
+  50   3                START_ALE=0;
+  51   3                delay(5);//等待AD转换完成
+  52   3                while(EOC==1)  
+  53   3                {
+  54   4                    P1=0xff;//读数据之前将P1口的电压置高
+C51 COMPILER V9.59.0.0   ADC                                                               05/15/2020 11:03:31 PAGE 2   
+
+  55   4                    OE=1;
+  56   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+  57   4                    delay(5);
+  58   4                    OE=0;
+  59   4                    break;
+  60   4                }       
+  61   3              }
+  62   2              temp2=(temp1/5.0)*100;
+  63   2              break;
+  64   2              case 2:
+  65   2              temp1=0;//采样5次求平均值，所以需要复位
+  66   2              for(i=5;i>0;i--)
+  67   2              {
+  68   3                START_ALE=0;
+  69   3                OE=0;//禁止转换数据输出
+  70   3                select_channel(2);//选择通道2进行转化
+  71   3                START_ALE=1;
+  72   3                delay(5);
+  73   3                START_ALE=0;//下降沿信号，转换开始
+  74   3                delay(5);//等待AD转换完成
+  75   3                while(EOC==1)//通过检查EOC判断转换时候完成
+  76   3                {
+  77   4                    P1=0xff;//读数据之前将P1口的电压置高，避免干扰
+  78   4                    OE=1;//打开数据输出
+  79   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+  80   4                      delay(5);
+  81   4                    OE=0;
+  82   4                    break;
+  83   4                }     
+  84   3              }
+  85   2              temp2=(temp1/5.0)*100;
+  86   2              break;
+  87   2              case 3:
+  88   2              temp1=0;//采样5次求平均值，所以需要复位
+  89   2              for(i=5;i>0;i--)
+  90   2              {
+  91   3                START_ALE=0;
+  92   3                OE=0;
+  93   3                select_channel(3);//选择通道3进行转化
+  94   3                START_ALE=1;
+  95   3                delay(5);
+  96   3                START_ALE=0;
+  97   3                delay(5);//等待AD转换完成
+  98   3                while(EOC==1)  
+  99   3                {
+ 100   4                    P1=0xff;//读数据之前将P1口的电压置高
+ 101   4                    OE=1;
+ 102   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+ 103   4                      delay(5);
+ 104   4                    OE=0;
+ 105   4                    break;
+ 106   4                }               
+ 107   3              }
+ 108   2              temp2=(temp1/5.0)*100;
+ 109   2              break;
+ 110   2              case 4:
+ 111   2              temp1=0;//采样5次求平均值，所以需要复位
+ 112   2              for(i=5;i>0;i--)
+ 113   2              {
+ 114   3                START_ALE=0;
+ 115   3                OE=0;
+ 116   3                select_channel(4);//选择通道4进行转化
+C51 COMPILER V9.59.0.0   ADC                                                               05/15/2020 11:03:31 PAGE 3   
+
+ 117   3                START_ALE=1;
+ 118   3                delay(5);
+ 119   3                START_ALE=0;
+ 120   3                delay(5);//等待AD转换完成
+ 121   3                while(EOC==1)  
+ 122   3                {
+ 123   4                    P1=0xff;//读数据之前将P1口的电压置高
+ 124   4                    OE=1;
+ 125   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+ 126   4                      delay(5);
+ 127   4                    OE=0;
+ 128   4                    break;
+ 129   4                }       
+ 130   3              }
+ 131   2              temp2=(temp1/5.0)*100;
+ 132   2              break;
+ 133   2              case 5:
+ 134   2              temp1=0;//采样5次求平均值，所以需要复位
+ 135   2              for(i=5;i>0;i--)        
+ 136   2              {
+ 137   3                START_ALE=0;
+ 138   3                OE=0;
+ 139   3                select_channel(5);//选择通道5进行转化
+ 140   3                START_ALE=1;
+ 141   3                delay(5);
+ 142   3                START_ALE=0;
+ 143   3                delay(5);//等待AD转换完成
+ 144   3                while(EOC==1)  
+ 145   3                {
+ 146   4                    P1=0xff;//读数据之前将P1口的电压置高
+ 147   4                    OE=1;
+ 148   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+ 149   4                      delay(5);
+ 150   4                    OE=0;
+ 151   4                    break;
+ 152   4                }       
+ 153   3              }
+ 154   2              temp2=(temp1/5.0)*100;
+ 155   2              break;
+ 156   2              case 6:
+ 157   2              temp1=0;//采样5次求平均值，所以需要复位
+ 158   2              for(i=5;i>0;i--)  
+ 159   2              {
+ 160   3                START_ALE=0;
+ 161   3                OE=0;
+ 162   3                select_channel(6);//选择通道6进行转化
+ 163   3                START_ALE=1;
+ 164   3                delay(5);
+ 165   3                START_ALE=0;
+ 166   3                delay(5);//等待AD转换完成
+ 167   3                while(EOC==1)  
+ 168   3                {
+ 169   4                    P1=0xff;//读数据之前将P1口的电压置高
+ 170   4                    OE=1;
+ 171   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+ 172   4                      delay(5);
+ 173   4                    OE=0;
+ 174   4                    break;
+ 175   4                }       
+ 176   3              }
+ 177   2              temp2=(temp1/5.0)*100;
+ 178   2              break;
+C51 COMPILER V9.59.0.0   ADC                                                               05/15/2020 11:03:31 PAGE 4   
+
+ 179   2              case 7:
+ 180   2              temp1=0;//采样5次求平均值，所以需要复位
+ 181   2              for(i=5;i>0;i--)
+ 182   2              {
+ 183   3                START_ALE=0;
+ 184   3                OE=0;
+ 185   3                select_channel(7);//选择通道7进行转化
+ 186   3                START_ALE=1;
+ 187   3                delay(5);
+ 188   3                START_ALE=0;
+ 189   3                delay(5);//等待AD转换完成
+ 190   3                while(EOC==1)  
+ 191   3                {
+ 192   4                    P1=0xff;//读数据之前将P1口的电压置高
+ 193   4                    OE=1;
+ 194   4                      temp1=temp1+P1/51.0;//将转换后的16进制准换成电压
+ 195   4                      delay(5);
+ 196   4                    OE=0;
+ 197   4                    break;
+ 198   4                }       
+ 199   3              }
+ 200   2              temp2=(temp1/5.0)*100;
+ 201   2              break;
+ 202   2          }
+ 203   1      }
+ 204          
+ 205          void select_channel(uchar n)//通道选择函数
+ 206          {
+ 207   1          switch(n)
+ 208   1          {
+ 209   2              case 0: add_C=0; add_B=0; add_A=0; break;//开启通道0
+ 210   2              case 1: add_C=0; add_B=0; add_A=1; break;//开启通道1
+ 211   2              case 2: add_C=0; add_B=1; add_A=0; break;//开启通道2
+ 212   2              case 3: add_C=0; add_B=1; add_A=1; break;//开启通道3
+ 213   2              case 4: add_C=1; add_B=0; add_A=0; break;//开启通道4
+ 214   2              case 5: add_C=1; add_B=0; add_A=1; break;//开启通道5
+ 215   2              case 6: add_C=1; add_B=1; add_A=0; break;//开启通道6
+ 216   2              case 7: add_C=1; add_B=1; add_A=1; break;//开启通道7
+ 217   2          }
+ 218   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1210    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

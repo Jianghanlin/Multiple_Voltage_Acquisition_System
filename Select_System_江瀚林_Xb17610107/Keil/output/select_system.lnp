@@ -1,0 +1,12 @@
+".\output\main.obj",
+".\output\AT89C52_init.obj",
+".\output\delay.obj",
+".\output\lcd_init.obj",
+".\output\lcd_display.obj",
+".\output\ADC.obj",
+".\output\adjust_voltage.obj",
+".\output\key_check.obj",
+".\output\led_warning.obj",
+".\output\my_info.obj" 
+TO ".\output\select_system" 
+PRINT(".\output\select_system.m51") RAMSIZE(256) 

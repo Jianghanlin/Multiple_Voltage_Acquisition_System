@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "lcd_init.h": "c",
+        "delay.h": "c",
+        "DELAY.C": "cpp",
+        "adjust_voltage.h": "c",
+        "lcd_display.h": "c",
+        "adc.h": "c",
+        "led_warning.h": "c",
+        "my_info.h": "c",
+        "define.h": "c",
+        "at89c52_init.h": "c"
+    }
+}

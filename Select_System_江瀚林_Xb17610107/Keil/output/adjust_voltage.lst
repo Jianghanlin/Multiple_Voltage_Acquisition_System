@@ -1,0 +1,161 @@
+C51 COMPILER V9.59.0.0   ADJUST_VOLTAGE                                                    05/15/2020 11:03:32 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE ADJUST_VOLTAGE
+OBJECT MODULE PLACED IN .\output\adjust_voltage.obj
+COMPILER INVOKED BY: E:\Softwares\uVersion5\C51\BIN\C51.EXE Sources\adjust_voltage.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJE
+                    -CTEXTEND PRINT(.\output\adjust_voltage.lst) TABS(2) OBJECT(.\output\adjust_voltage.obj)
+
+line level    source
+
+   1          #include "adjust_voltage.h"
+   2          #include "define.h"
+   3          int down0=0,up0=500;//通道0的上下限值
+   4          int down1=0,up1=500;//通道1的上下限值
+   5          int down2=0,up2=500;//通道2的上下限值
+   6          int down3=0,up3=500;//通道3的上下限值
+   7          int down4=0,up4=500;//通道4的上下限值
+   8          int down5=0,up5=500;//通道5的上下限值
+   9          int down6=0,up6=500;//通道6的上下限值
+  10          int down7=0,up7=500;//通道7的上下限值
+  11          void adjust_up_add(uchar p)//调节对应通道上限电压值向上
+  12          {
+  13   1          switch(p)
+  14   1          {
+  15   2              case 0:
+  16   2                  if((up0+10)<=500)    up0+=10; 
+  17   2                  break; 
+  18   2              case 1:
+  19   2                  if((up1+10)<=500)    up1+=10; 
+  20   2                  break;
+  21   2              case 2:
+  22   2                  if((up2+10)<=500)    up2+=10; 
+  23   2                  break;
+  24   2              case 3:
+  25   2                  if((up3+10)<=500)    up3+=10; 
+  26   2                  break;
+  27   2              case 4:
+  28   2                  if((up4+10)<=500)    up4+=10; 
+  29   2                  break;
+  30   2              case 5:
+  31   2                  if((up5+10)<=500)    up5+=10; 
+  32   2                  break;
+  33   2              case 6:
+  34   2                  if((up6+10)<=500)    up6+=10; 
+  35   2                  break;
+  36   2              case 7:
+  37   2                  if((up7+10)<=500)    up7+=10; 
+  38   2                  break;        
+  39   2          }
+  40   1      }
+  41          
+  42          void adjust_up_reduce(uchar p)//调节对应通道上限电压值向下
+  43          {
+  44   1          switch(p)
+  45   1          {
+  46   2              case 0:
+  47   2                  if(up0>down0+10)    up0-=10;
+  48   2                  break; 
+  49   2              case 1:
+  50   2                  if(up1>down1+10)    up1-=10;
+  51   2                  break;
+  52   2              case 2:
+  53   2                  if(up2>down2+10)    up2-=10;
+  54   2                  break;
+C51 COMPILER V9.59.0.0   ADJUST_VOLTAGE                                                    05/15/2020 11:03:32 PAGE 2   
+
+  55   2              case 3:
+  56   2                  if(up3>down3+10)    up3-=10;
+  57   2                  break;
+  58   2              case 4:
+  59   2                  if(up4>down4+10)    up4-=10;
+  60   2                  break;
+  61   2              case 5:
+  62   2                  if(up5>down5+10)    up5-=10;
+  63   2                  break;
+  64   2              case 6:
+  65   2                  if(up6>down6+10)    up6-=10;
+  66   2                  break;
+  67   2              case 7:
+  68   2                  if(up7>down7+10)    up7-=10;
+  69   2                  break;        
+  70   2          }
+  71   1      }
+  72          
+  73          void adjust_down_add(uchar p)//调节对应通道下限电压值向上
+  74          {
+  75   1          switch(p)
+  76   1          {
+  77   2              case 0:
+  78   2                  if(down0<(up0-10))    down0+=10; 
+  79   2                  break; 
+  80   2              case 1:
+  81   2                  if(down1<(up1-10))    down1+=10; 
+  82   2                  break;
+  83   2              case 2:
+  84   2                  if(down2<(up2-10))    down2+=10; 
+  85   2                  break;
+  86   2              case 3:
+  87   2                  if(down3<(up3-10))    down3+=10; 
+  88   2                  break;
+  89   2              case 4:
+  90   2                  if(down4<(up4-10))    down4+=10; 
+  91   2                  break;
+  92   2              case 5:
+  93   2                  if(down5<(up5-10))    down5+=10; 
+  94   2                  break;
+  95   2              case 6:
+  96   2                  if(down6<(up6-10))    down6+=10; 
+  97   2                  break;
+  98   2              case 7:
+  99   2                  if(down7<(up7-10))    down7+=10; 
+ 100   2                  break;        
+ 101   2          }
+ 102   1      }
+ 103          
+ 104          void adjust_down_reduce(uchar p)//调节对应通道下限电压值向下
+ 105          {
+ 106   1          switch(p)
+ 107   1          {
+ 108   2              case 0:
+ 109   2                  if((down0-10)>=0)    down0-=10; 
+ 110   2                  break; 
+ 111   2              case 1:
+ 112   2                  if((down1-10)>=0)    down1-=10; 
+ 113   2                  break;
+ 114   2              case 2:
+ 115   2                  if((down2-10)>=0)    down2-=10; 
+ 116   2                  break;
+C51 COMPILER V9.59.0.0   ADJUST_VOLTAGE                                                    05/15/2020 11:03:32 PAGE 3   
+
+ 117   2              case 3:
+ 118   2                  if((down3-10)>=0)    down3-=10; 
+ 119   2                  break;
+ 120   2              case 4:
+ 121   2                  if((down4-10)>=0)    down4-=10;
+ 122   2                  break;
+ 123   2              case 5:
+ 124   2                  if((down5-10)>=0)    down5-=10; 
+ 125   2                  break;
+ 126   2              case 6:
+ 127   2                  if((down6-10)>=0)    down6-=10; 
+ 128   2                  break;
+ 129   2              case 7:
+ 130   2                  if((down7-10)>=0)    down7-=10; 
+ 131   2                  break;        
+ 132   2          }
+ 133   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1277    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     32    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

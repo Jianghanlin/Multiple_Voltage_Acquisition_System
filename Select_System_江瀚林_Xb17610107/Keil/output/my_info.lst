@@ -1,0 +1,51 @@
+C51 COMPILER V9.59.0.0   MY_INFO                                                           05/15/2020 11:03:32 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MY_INFO
+OBJECT MODULE PLACED IN .\output\my_info.obj
+COMPILER INVOKED BY: E:\Softwares\uVersion5\C51\BIN\C51.EXE Sources\my_info.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEN
+                    -D PRINT(.\output\my_info.lst) TABS(2) OBJECT(.\output\my_info.obj)
+
+line level    source
+
+   1          #include "my_info.h"
+   2          #include "define.h"
+   3          #include "lcd_init.h"
+   4          #include "delay.h"
+   5          uchar code a1[]="Author: JHL";
+   6          uchar code a2[]="Num: Xb17610107";
+   7          void my_info()
+   8          {
+   9   1            uchar i=0,j=0;
+  10   1          LCD_Write_Command(0x80);
+  11   1          while(a1[i]!='\0')
+  12   1          { 
+  13   2            LCD_Write_Value(a1[i]);
+  14   2            i++;
+  15   2            delay(5);
+  16   2          }
+  17   1          
+  18   1          LCD_Write_Command(0x40+0x80);
+  19   1          while(a2[j]!='\0')
+  20   1          { 
+  21   2            LCD_Write_Value(a2[j]);
+  22   2            j++;
+  23   2            delay(5);
+  24   2          }
+  25   1          delay(2000);//信息显示2秒后清屏
+  26   1          LCD_Write_Command(0x01);    
+  27   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     73    ----
+   CONSTANT SIZE    =     28    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

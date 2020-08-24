@@ -1,0 +1,15 @@
+Added Component: Designator=LS1(BUZZER_12*9.5)
+Added Component: Designator=Q1(TO-92A)
+Add component (AddParameter): Name = "HelpURL"; Value = "https://baike.baidu.com/item/%E4%B8%89%E6%9E%81%E7%AE%A18550/862606"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=VCC Pin=LS1-1
+Added Pin To Net: NetName=GND Pin=Q1-3
+Added Pin To Net: NetName=bee Pin=Q1-2
+Added Pin To Net: NetName=bee Pin=RN1-8
+Added Pin To Net: NetName=bee Pin=U4-33
+Added Net: Name=bee
+Added Pin To Net: NetName=NetLS1_2 Pin=LS1-2
+Added Pin To Net: NetName=NetLS1_2 Pin=Q1-1
+Added Net: Name=NetLS1_2
+Added Member To Class: ClassName=Sheet1 Member=Component LS1 BUZZ
+Added Member To Class: ClassName=Sheet1 Member=Component Q1 8550
+Added Room: Name=Sheet1

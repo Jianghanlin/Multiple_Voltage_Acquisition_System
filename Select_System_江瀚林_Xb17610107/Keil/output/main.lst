@@ -1,0 +1,101 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              05/15/2020 11:03:31 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\output\main.obj
+COMPILER INVOKED BY: E:\Softwares\uVersion5\C51\BIN\C51.EXE Sources\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND P
+                    -RINT(.\output\main.lst) TABS(2) OBJECT(.\output\main.obj)
+
+line level    source
+
+   1          //Desingned by 江瀚林 Xb17610107
+   2          //17电子信息工程2019.11.14.江瀚林
+   3          #include <reg52.h>
+   4          #include "AT89C52_init.h"//集成STC89C52初始化相关函数
+   5          #include "lcd_init.h"//集成LCD初始化相关函数
+   6          #include "lcd_display.h"//集成LCD显示相关函数
+   7          #include "delay.h"//集成延时函数
+   8          #include "adjust_voltage.h"//集成电压判断函数
+   9          #include "key_check.h"//集成按键检测函数 
+  10          #include "led_warning.h"//集成led报警函数
+  11          #include "define.h"
+  12          #include "my_info.h"
+  13          
+  14          sbit KEY1=P3^2;//前一通道按钮
+  15          sbit KEY2=P3^3;//后一通道按钮
+  16          sbit led_en=P0^7;//报警led使能引脚
+  17          
+  18          uchar flag=0;//flag用来保存通道序号,由外部中断来更改
+  19          //void song();由于换种思维进行LED报警，启用需要取消注释
+  20          
+  21          
+  22          int main()
+  23          {
+  24   1          led_en=0;//首先不让报警led工作
+  25   1          lcd_init();//对lcd初始化
+  26   1          T0_initial();//定时器0初始化
+  27   1          INT_init();//STC89C52外部中断初始化
+  28   1          my_info();//显示我的个人信息
+  29   1          display_normal();//显示固定字段
+  30   1          while(1)
+  31   1          {
+  32   2              KEY_Check();//按键检测，集成上下限电压显示  
+  33   2              display_channel_Voltage(flag);//显示通道和电压 
+  34   2          }     
+  35   1      }
+  36          
+  37          
+  38          
+  39          
+  40          
+  41          //外部中断0的中断函数
+  42          void key1() interrupt 0//按键1显示前1通道，递减1 
+  43          {
+  44   1          if(flag==0)  flag=7;//到顶则从7开始
+  45   1          else flag-=1;        
+  46   1      }
+  47          
+  48          //定时器0溢出中断
+  49          void timer0() interrupt 1
+  50          {    
+  51   1          led_warn();
+  52   1          TH0=0x3C;
+  53   1          TL0=0x80;//每次进入中断赋初值15536,50ms检测一次
+  54   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              05/15/2020 11:03:31 PAGE 2   
+
+  55          
+  56          //外部中断1的中断函数
+  57          void key2() interrupt 2//按键2显示后1通道，递增1
+  58          {
+  59   1          if(flag==7)  flag=0;//到底则从0开始
+  60   1          else flag+=1;  
+  61   1      }
+  62          
+  63          
+  64          
+  65          /* void song() //
+  66          {
+  67              bee=1;
+  68              delay(500);
+  69              bee=0;
+  70              delay(50000);
+  71          } */
+  72          
+  73          
+  74          
+  75          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    125    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
